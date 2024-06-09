@@ -5,33 +5,28 @@ using namespace std;
 int main()
 {
     short int size = -1;
-    short int count_star = 0;
     cout << "Enter size: ";
     cin >> size;
-    short int count_space = size - 1;
-    for (short int repetition = 0; repetition < size; repetition++)
+    if (size <= 0)
     {
-        for (short int space = 0; space < count_space; space++)
+        cout << "The entered size is not positive!" << endl;
+    }
+    for (short int repetition = size; repetition > 0; repetition--)
+    {
+        for (short int space = repetition - 1; space > 0; space--)
         {
             cout << " ";
         }
-        count_space--;
-        count_star++;
-        for (short int star = 0; star < count_star; star++)
+        for (short int star = 0; star <= (size - repetition) * 2; star++)
         {
-            cout << '*';
-            if (star == 1)
-            {
-                count_star++;
-            }
+            cout << "*";
         }
         cout << endl;
     }
-    while(size - 1)
+    for (short int end = 0; end < size - 1; end++)
     {
-        size--;
         cout << " ";
     }
-    cout << '*';
+    cout << "*";
     return 0;
 }
