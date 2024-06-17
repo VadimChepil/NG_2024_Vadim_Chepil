@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <ctime>
 
 using namespace std;
 
@@ -13,18 +14,12 @@ int main()
     int max_score = -1;
     string input = "default";
     char operation = '\0';
-    //Generation of 10 different accounts
-    bank[1] = 2000;
-    bank[2] = 10000;
-    bank[3] = 300;
-    bank[4] = 100000;
-    bank[5] = 4500;
-    bank[6] = 89433;
-    bank[7] = 24324;
-    bank[8] = 653567;
-    bank[9] = 864532;
-    bank[10] = 1000000;
-
+    //Generation of 10 different accounts from Random
+    srand(time(NULL));
+    for (int index = 1; index <= 10; index++)
+    {
+        bank[index] = rand();
+    }
     cout << "Welcome to Bank" << endl;
     while(true)
     {
