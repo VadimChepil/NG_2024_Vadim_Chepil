@@ -1,0 +1,8 @@
+# Ignore all files and folders
+*
+
+# Don't ignore the .gitignore file
+!.gitignore
+
+# Don't ignore the main.cpp
+!main.cpp
