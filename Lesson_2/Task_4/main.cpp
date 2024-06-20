@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cctype>
 
 using namespace std;
 
@@ -8,26 +9,28 @@ int main()
     char text[AMOUNT] = {0};
     int count_word = 0;
     int count_letter = 0;
-    for (int iteration = 0; iteration < AMOUNT; iteration++)
-    {
-        text[iteration] = ' ';
-    }
+    bool middle = false;
+
     cout << "Enter text: ";
-    cin.getline(text, 100);
+    cin.getline(text, AMOUNT);
     for (int index = 0; index < AMOUNT; index++)
     {
-        if (text[index] != ' ')
+        if (text[index] == '\0')
+        {
+            break;
+        }
+        if (isalpha(text[index]))
         {
             count_letter++;
+            if (!middle)
+            {
+                middle = true;
+                count_word++;
+            }
         }
-        if ((text[index] == ' ') && (text[(index+1)] != ' '))
+        else
         {
-            count_word++;
-        }
-        if ((text[index] == ' ') && (text[(index+1)] == ' '))
-        {
-            count_word++;
-            break;
+            middle = false;
         }
     }
     cout << "Word count: " << count_word << endl;
