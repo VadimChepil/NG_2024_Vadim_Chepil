@@ -1,14 +1,27 @@
 #include <iostream>
-#include <cctype>
 
 using namespace std;
+
+int TextNumberCheck(char text[], int index)
+{
+    char capitalLetter = 'A';
+    char smallLetter = 'a';
+    if ((text[index] >= capitalLetter && text[index] <= 'Z') || (text[index] >= smallLetter && text[index] <= 'z'))
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
 
 int main()
 {
     const int AMOUNT = 100; // Maximum text length
     char text[AMOUNT] = {0};
-    int count_word = 0;
-    int count_letter = 0;
+    int countWord = 0;
+    int countLetter = 0;
     bool middle = false;
 
     cout << "Enter text: ";
@@ -19,21 +32,24 @@ int main()
         {
             break;
         }
-        if (isalpha(text[index]))
-        {
-            count_letter++;
-            if (!middle)
-            {
-                middle = true;
-                count_word++;
-            }
-        }
         else
         {
-            middle = false;
+            if (TextNumberCheck(text, index) == 1)
+            {
+                countLetter++;
+                if (!middle)
+                {
+                    middle = true;
+                    countWord++;
+                }
+            }
+            else
+            {
+                middle = false;
+            }
         }
     }
-    cout << "Word count: " << count_word << endl;
-    cout << "Letter count: " << count_letter << endl;
+    cout << "Word count: " << countWord << endl;
+    cout << "Letter count: " << countLetter << endl;
     return 0;
 }
