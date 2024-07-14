@@ -1,0 +1,11 @@
+# Ignore all files and folders
+*
+
+# Don't ignore the files
+!.gitignore
+!*.cpp
+!*.h
+!*.pro
+
+# Don't ignore the images folder
+!images
