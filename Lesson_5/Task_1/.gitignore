@@ -4,8 +4,10 @@
 # Don't ignore the files
 !.gitignore
 !*.cpp
-!*.h
+!mainwindow.h
+!secondwindow.h
 !*.pro
+!*.ui
 
 # Don't ignore the images folder
 !images
