@@ -1,6 +1,9 @@
+#include <QMessageBox>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "secondwindow.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,93 +12,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // Adding (objects) cars
-    Addition Audi;
-    Audi.setBrandCar("Audi");
-    Audi.setManufactureCar("Germany");
-    Audi.setPriceCar(14000);
-    Audi.setTypeCar("Sedan");
-    Audi.setColorCar("Gray");
-    Audi.setModelCar("A4");
-    Audi.setNumberSeatsCar(5);
-    Audi.setYearCar(2014);
-    cars.append(Audi);
-
-    Addition BMW;
-    BMW.setBrandCar("BMW");
-    BMW.setManufactureCar("Germany");
-    BMW.setPriceCar(80000);
-    BMW.setTypeCar("Sedan");
-    BMW.setColorCar("Blue");
-    BMW.setModelCar("M5");
-    BMW.setNumberSeatsCar(5);
-    BMW.setYearCar(2018);
-    cars.append(BMW);
-
-    Addition Volkswagen;
-    Volkswagen.setBrandCar("Volkswagen");
-    Volkswagen.setManufactureCar("Germany");
-    Volkswagen.setPriceCar(30000);
-    Volkswagen.setTypeCar("Crossover");
-    Volkswagen.setColorCar("White");
-    Volkswagen.setModelCar("Crozz");
-    Volkswagen.setNumberSeatsCar(5);
-    Volkswagen.setYearCar(2022);
-    cars.append(Volkswagen);
-
-    Addition Skoda;
-    Skoda.setBrandCar("Skoda");
-    Skoda.setManufactureCar("Germany");
-    Skoda.setPriceCar(20000);
-    Skoda.setTypeCar("Universal");
-    Skoda.setColorCar("Brown");
-    Skoda.setModelCar("Octavia А5");
-    Skoda.setNumberSeatsCar(7);
-    Skoda.setYearCar(2015);
-    cars.append(Skoda);
-
-    Addition Mercedes;
-    Mercedes.setBrandCar("Mercedes-Benz");
-    Mercedes.setManufactureCar("Germany");
-    Mercedes.setPriceCar(190000);
-    Mercedes.setTypeCar("Compartment");
-    Mercedes.setColorCar("Black");
-    Mercedes.setModelCar("S-Class");
-    Mercedes.setNumberSeatsCar(5);
-    Mercedes.setYearCar(2021);
-    cars.append(Mercedes);
-
-    Addition Daewoo;
-    Daewoo.setBrandCar("Daewoo");
-    Daewoo.setManufactureCar("Korea");
-    Daewoo.setPriceCar(3000);
-    Daewoo.setTypeCar("Hatchback");
-    Daewoo.setColorCar("Red");
-    Daewoo.setModelCar("Matiz");
-    Daewoo.setNumberSeatsCar(4);
-    Daewoo.setYearCar(2005);
-    cars.append(Daewoo);
-
-    Addition Toyota;
-    Toyota.setBrandCar("Toyota");
-    Toyota.setManufactureCar("Japan");
-    Toyota.setPriceCar(45000);
-    Toyota.setTypeCar("Pickup");
-    Toyota.setColorCar("Green");
-    Toyota.setModelCar("Hilux");
-    Toyota.setNumberSeatsCar(5);
-    Toyota.setYearCar(2021);
-    cars.append(Toyota);
-
-    Addition Ford;
-    Ford.setBrandCar("Ford");
-    Ford.setManufactureCar("America");
-    Ford.setPriceCar(20000);
-    Ford.setTypeCar("Minivan");
-    Ford.setColorCar("Gray");
-    Ford.setModelCar("Transit");
-    Ford.setNumberSeatsCar(8);
-    Ford.setYearCar(2020);
-    cars.append(Ford);
+    cars.append(Addition(QString("Audi"), QString("Germany"), 14000, QString("Sedan"), QString("Gray"), QString("A4"), 5, 2014));
+    cars.append(Addition(QString("BMW"), QString("Germany"), 80000, QString("Sedan"), QString("Blue"), QString("M5"), 5, 2018));
+    cars.append(Addition(QString("Volkswagen"), QString("Germany"), 30000, QString("Crossover"), QString("White"), QString("Crozz"), 5, 2022));
+    cars.append(Addition(QString("Skoda"), QString("Germany"), 20000, QString("Universal"), QString("Brown"), QString("Octavia A5"), 7, 2015));
+    cars.append(Addition(QString("Mercedes-Benz"), QString("Germany"), 190000, QString("Compartment"), QString("Black"), QString("S-Class"), 5, 2021));
+    cars.append(Addition(QString("Daewoo"), QString("Korea"), 3000, QString("Hatchback"), QString("Red"), QString("Matiz"), 4, 2005));
+    cars.append(Addition(QString("Toyota"), QString("Japan"), 45000, QString("Pickup"), QString("Green"), QString("Hilux"), 5, 2021));
+    cars.append(Addition(QString("Ford"), QString("America"), 20000, QString("Minivan"), QString("Gray"), QString("Transit"), 8, 2020));
 }
 
 MainWindow::~MainWindow()
@@ -117,25 +41,64 @@ void MainWindow::on_b_search_clicked()
     int toPrice = 1000000;
 
     // Verification of entered data
+    bool checkError = false;
+
     if (!ui->l_fromYear->text().isEmpty())
     {
-        fromYear = ui->l_fromYear->text().toInt();
+        if (ui->l_fromYear->text().toInt() >= 0)
+        {
+            fromYear = ui->l_fromYear->text().toInt();
+        }
+        else
+        {
+            checkError = true;
+        }
     }
+
     if (!ui->l_toYear->text().isEmpty())
     {
-        toYear = ui->l_toYear->text().toInt();
+        if (ui->l_toYear->text().toInt() <= 2024 && ui->l_toYear->text().toInt() >= fromYear)
+        {
+            toYear = ui->l_toYear->text().toInt();
+        }
+        else
+        {
+            checkError = true;
+        }
     }
+
     if (!ui->l_fromPrice->text().isEmpty())
     {
-        fromPrice = ui->l_fromPrice->text().toInt();
+        if (ui->l_fromPrice->text().toInt() >= 0)
+        {
+            fromPrice = ui->l_fromPrice->text().toInt();
+        }
+        else
+        {
+            checkError = true;
+        }
     }
+
     if (!ui->l_toPrice->text().isEmpty())
     {
-        toPrice = ui->l_toPrice->text().toInt();
+        if (ui->l_toPrice->text().toInt() <= 1000000000 && ui->l_toPrice->text().toInt() >= fromPrice)
+        {
+            toPrice = ui->l_toPrice->text().toInt();
+        }
+        else
+        {
+            checkError = true;
+        }
+    }
+
+    if (checkError)
+    {
+        QMessageBox::warning(this, "Data", "Invalid data!");
+        return; //Stop run of the secondwindow
     }
 
     // Сar selection filtering
-    for (const auto& car : cars)
+    for (Addition car : cars)
     {
         if ((typeCar == "All types" || car.getTypeCar() == typeCar) &&
             (brandCar == "All brands" || car.getBrandCar() == brandCar) &&
@@ -148,3 +111,4 @@ void MainWindow::on_b_search_clicked()
 
     secondWindow->show();
 }
+

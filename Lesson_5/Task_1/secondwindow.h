@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QStackedWidget>
 #include <QPushButton>
+
 #include "mainwindow.h"
 
 class Addition;

@@ -1,6 +1,8 @@
+#include <QPixmap>
+
 #include "secondwindow.h"
 #include "ui_secondwindow.h"
-#include <QPixmap>
+
 
 SecondWindow::SecondWindow(QWidget *parent)
     : QDialog(parent),
