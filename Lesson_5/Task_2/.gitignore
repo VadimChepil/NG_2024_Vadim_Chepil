@@ -1,0 +1,16 @@
+# Ignore all files and folders
+*
+
+# Don't ignore the files
+!.gitignore
+!*.cpp
+!*.h
+!*.pro
+!*.ui
+
+# Ignore the this files
+ui_mainwindow.h
+ui_secondwindow.h
+
+# Don't ignore the images folder
+!images
