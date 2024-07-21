@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <QMessageBox>
 
 #include "mainwindow.h"
@@ -8,11 +7,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , secondWindow(new SecondWindow(this))
 {
     ui->setupUi(this);
-
-    ui->sb_getDate->setMaximum(2024);
-    ui->sb_setDate->setMaximum(2024);
 }
 
 MainWindow::~MainWindow()
@@ -27,7 +24,7 @@ void MainWindow::on_b_search_clicked()
     QString typeDocument = ui->cb_getType->currentText();
     QString nameDocument = ui->l_getName->text();
     QString author = ui->l_getAuthor->text();
-    int dateCreation = ui->sb_getDate->value();
+    QDate dateCreation = ui->de_getDate->date();
     QString addressLibrary = ui->l_getAddress->text();
 
     bool found = false;
@@ -36,7 +33,7 @@ void MainWindow::on_b_search_clicked()
         if ((typeDocument == "All types" || document.getTypeDocument() == typeDocument) &&
             (nameDocument.isEmpty() || document.getNameDocument() == nameDocument) &&
             (author.isEmpty() || document.getAuthorDocument() == author) &&
-            (dateCreation == 0 || document.getCreationDate() == dateCreation) &&
+            (dateCreation.isNull() || document.getCreationDate() == dateCreation) &&
             (addressLibrary.isEmpty() || document.getAddressLibrary() == addressLibrary))
         {
             secondWindow->addPageDocument(document);
@@ -67,18 +64,16 @@ void MainWindow::on_b_return_clicked()
 void MainWindow::on_b_addDocuments_clicked()
 {
     CardFile newDocument(ui->cb_setType->currentText(), ui->l_setName->text(),
-                         ui->l_setAuthor->text(), ui->sb_setDate->value(), ui->l_setAddress->text());
+                         ui->l_setAuthor->text(), ui->de_setDate->date(), ui->l_setAddress->text());
 
-    // Check if the document is valid
     if ((!newDocument.getTypeDocument().isEmpty()) &&
         (!newDocument.getNameDocument().isEmpty()) &&
         (!newDocument.getAuthorDocument().isEmpty()) &&
-        (newDocument.getCreationDate() != 0) &&
+        (!newDocument.getCreationDate().isNull()) &&
         (!newDocument.getAddressLibrary().isEmpty()))
     {
         bool documentExists = false;
 
-        // Check if the document already exists
         for (const CardFile &document : documents)
         {
             if ((newDocument.getTypeDocument() == document.getTypeDocument()) &&
@@ -92,13 +87,13 @@ void MainWindow::on_b_addDocuments_clicked()
             }
         }
 
-        // Adding the document if it does not already exist
         if (!documentExists)
         {
             documents.append(newDocument);
             if (documents.contains(newDocument))
             {
                 QMessageBox::information(this, "Adding document", "Document added successfully");
+                secondWindow->updateDocuments(documents);
             }
         }
         else
@@ -117,7 +112,7 @@ void MainWindow::on_b_deleteDocuments_clicked()
     QString typeDocument = ui->cb_setType->currentText();
     QString nameDocument = ui->l_setName->text();
     QString author = ui->l_setAuthor->text();
-    int dateCreation = ui->sb_setDate->value();
+    QDate dateCreation = ui->de_setDate->date();
     QString addressLibrary = ui->l_setAddress->text();
 
     bool found = false;
@@ -132,6 +127,7 @@ void MainWindow::on_b_deleteDocuments_clicked()
             documents.removeOne(document);
             QMessageBox::information(this, "Delete documents", "Document deleted successfully");
             found = true;
+            secondWindow->updateDocuments(documents);
             break;
         }
     }
@@ -140,4 +136,3 @@ void MainWindow::on_b_deleteDocuments_clicked()
         QMessageBox::warning(this, "Delete documents", "This document does not exist");
     }
 }
-

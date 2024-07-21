@@ -2,12 +2,13 @@
 #define CARDFILE_H
 
 #include <QString>
+#include <QDate>
 
 class CardFile
 {
 public:
     CardFile();
-    CardFile(const QString& type, const QString& name, const QString& author, const int& date, const QString& address);
+    CardFile(const QString& type, const QString& name, const QString& author, const QDate& date, const QString& address);
 
     QString getTypeDocument() const;
     void setTypeDocument(const QString &type);
@@ -21,8 +22,8 @@ public:
     QString getAddressLibrary() const;
     void setAddressLibrary(const QString &address);
 
-    int getCreationDate() const;
-    void setCreationDate(const int &date);
+    QDate getCreationDate() const;
+    void setCreationDate(const QDate &date);
 
     bool operator==(const CardFile &other) const;
 private:
@@ -30,7 +31,7 @@ private:
     QString nameDocument;
     QString authorDocument;
     QString addressLibrary;
-    int creationDate;
+    QDate creationDate;
 };
 
 #endif // CARDFILE_H

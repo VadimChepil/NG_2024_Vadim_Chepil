@@ -2,7 +2,7 @@
 
 CardFile::CardFile() {}
 
-CardFile::CardFile(const QString &type, const QString &name, const QString &author, const int &date, const QString &address)
+CardFile::CardFile(const QString &type, const QString &name, const QString &author, const QDate &date, const QString &address)
 {
     setTypeDocument(type);
     setNameDocument(name);
@@ -51,12 +51,12 @@ void CardFile::setAddressLibrary(const QString &address)
     addressLibrary = address;
 }
 
-int CardFile::getCreationDate() const
+QDate CardFile::getCreationDate() const
 {
     return creationDate;
 }
 
-void CardFile::setCreationDate(const int &date)
+void CardFile::setCreationDate(const QDate &date)
 {
     creationDate = date;
 }

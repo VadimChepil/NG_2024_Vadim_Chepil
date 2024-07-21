@@ -1,5 +1,4 @@
 #include <QLabel>
-
 #include "secondwindow.h"
 #include "ui_secondwindow.h"
 
@@ -9,7 +8,6 @@ SecondWindow::SecondWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Create and configure "Next" and "Previous" buttons
     nextButton = new QPushButton("Next", this);
     previousButton = new QPushButton("Previous", this);
     countPage = new QLabel(this);
@@ -32,12 +30,12 @@ void SecondWindow::addPageDocument(const CardFile &document)
     QLabel *l_information = new QLabel(page);
 
     QString dataDocument = "Type document: " + document.getTypeDocument() + "\n"
-                        + "Name document: " + document.getNameDocument() + "\n"
-                        + "Author document: " + document.getAuthorDocument() + "\n"
-                        + "Date creation: " + QString::number(document.getCreationDate()) + "\n"
-                        + "Address library: " + document.getAddressLibrary();
+                           + "Name document: " + document.getNameDocument() + "\n"
+                           + "Author document: " + document.getAuthorDocument() + "\n"
+                           + "Date creation: " + document.getCreationDate().toString("dd.MM.yyyy") + "\n"
+                           + "Address library: " + document.getAddressLibrary();
 
-    QFont fontInformation("Times New Roman", 20);
+    QFont fontInformation("Times New Roman", 18);
     l_information->setFont(fontInformation);
     l_information->setGeometry(0, 0, 300, 200);
     l_information->setText(dataDocument);
@@ -46,8 +44,32 @@ void SecondWindow::addPageDocument(const CardFile &document)
     countPage->setFont(fontPage);
     countPage->setGeometry(350, 0, 30, 30);
 
-    // Adding a page with document information
     ui->stackedWidget->addWidget(page);
+
+    updateCountPage();
+}
+
+void SecondWindow::updateDocuments(const QList<CardFile> &documents)
+{
+    // Removing all documents from the window
+    while (ui->stackedWidget->count() > 0)
+    {
+        QWidget *widget = ui->stackedWidget->widget(0);
+        ui->stackedWidget->removeWidget(widget);
+        delete widget;
+    }
+
+    // Added documents
+    for (const CardFile &document : documents)
+    {
+        addPageDocument(document);
+    }
+
+    // Moves to the last page if there are at least 2 pages
+    if (ui->stackedWidget->count() > 0)
+    {
+        ui->stackedWidget->setCurrentIndex((ui->stackedWidget->count() - 1));
+    }
 
     updateCountPage();
 }
@@ -56,13 +78,12 @@ void SecondWindow::updateCountPage()
 {
     int currentPage = ui->stackedWidget->currentIndex() + 1;
     int totalPages = ui->stackedWidget->count();
-    QString countPageText = QString::number(currentPage) + "/" + QString::number(totalPages);;
+    QString countPageText = QString::number(currentPage) + "/" + QString::number(totalPages);
     countPage->setText(countPageText);
 }
 
 void SecondWindow::onNextClicked()
 {
-    // Check for an existing next page
     int currentIndex = ui->stackedWidget->currentIndex();
     int pageCount = ui->stackedWidget->count();
     if (currentIndex < pageCount - 1)
@@ -74,7 +95,6 @@ void SecondWindow::onNextClicked()
 
 void SecondWindow::onPreviousClicked()
 {
-    // Check for an existing previous page
     int currentIndex = ui->stackedWidget->currentIndex();
     if (currentIndex > 0)
     {

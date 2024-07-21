@@ -39,7 +39,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -154,29 +154,16 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
           <item>
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="label_10">
             <property name="text">
              <string>Date of creation:</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="sb_getDate">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QDateEdit" name="de_getDate">
             <property name="minimumSize">
              <size>
               <width>160</width>
@@ -347,20 +334,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="sb_setDate">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
+           <widget class="QDateEdit" name="de_setDate">
             <property name="minimumSize">
              <size>
               <width>160</width>
@@ -415,7 +389,7 @@
         <item>
          <widget class="QPushButton" name="b_return">
           <property name="text">
-           <string>Return to the main page</string>
+           <string>Go to search</string>
           </property>
          </widget>
         </item>

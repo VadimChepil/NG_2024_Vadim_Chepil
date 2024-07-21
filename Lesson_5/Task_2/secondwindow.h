@@ -5,10 +5,8 @@
 #include <QLabel>
 #include <QStackedWidget>
 #include <QPushButton>
-
-#include "mainwindow.h"
-
-class CardFile;
+#include <QList>
+#include "cardfile.h"
 
 namespace Ui {
 class SecondWindow;
@@ -23,6 +21,7 @@ public:
     ~SecondWindow();
 
     void addPageDocument(const CardFile &document);
+    void updateDocuments(const QList<CardFile> &documents);
 
 private slots:
     void updateCountPage();
@@ -30,12 +29,10 @@ private slots:
     void onPreviousClicked();
 
 private:
-    // Pointers
     Ui::SecondWindow *ui;
     QPushButton *nextButton;
     QPushButton *previousButton;
     QLabel *countPage;
-
 };
 
 #endif // SECONDWINDOW_H
