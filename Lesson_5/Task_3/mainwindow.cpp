@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QRegularExpression>
 #include <QStack>
 #include <cmath>
@@ -81,6 +82,20 @@ void MainWindow::numberOutput()
                 return;
             }
         }
+        else if (button->text() == "√")
+        {
+            if (!lastNumber.isEmpty() && lastNumber.toDouble() > 0)
+            {
+                digitText += "*";
+            }
+        }
+        else if (button->text() == ".")
+        {
+            if (digitText.length() == 0)
+            {
+                digitText += "0";
+            }
+        }
     }
     digitText += button->text();
     ui->le_display->setText(digitText);
@@ -95,6 +110,7 @@ void MainWindow::numberAction()
     }
     ui->le_display->setText(digitText);
 }
+
 void MainWindow::on_b_delete_clicked()
 {
     digitText.clear();
@@ -174,10 +190,21 @@ double checkExpression(const QString& expression)
     QStack<QChar> operators;
     int i = 0;
 
-    auto applyTopOperator = [&values, &operators]() {
+    auto applyTopOperator = [&values, &operators]()
+    {
+        if (values.size() < 2 && operators.top() != QChar(0x221A))
+        {
+            throw std::runtime_error("Insufficient values for operation");
+        }
         double val2 = values.pop();
         QChar op = operators.pop();
         double val1 = (op == QChar(0x221A)) ? 0 : values.pop();
+
+        if (op == '/' && val2 == 0)
+        {
+            throw std::runtime_error("Division by zero");
+        }
+
         values.push(applyOperation(val1, val2, op));
     };
 
@@ -186,11 +213,22 @@ double checkExpression(const QString& expression)
         if (expression[i].isDigit() || expression[i] == '.')
         {
             QString valueStr;
-            while (i < expression.length() && (expression[i].isDigit() || expression[i] == '.'))
+            bool hasExponent = false;
+            while (i < expression.length() && (expression[i].isDigit() || expression[i] == '.' || (expression[i].toLower() == 'e' && !hasExponent)))
             {
+                if (expression[i].toLower() == 'e')
+                {
+                    hasExponent = true;
+                }
                 valueStr += expression[i++];
             }
-            values.push(valueStr.toDouble());
+            bool ok;
+            double value = valueStr.toDouble(&ok);
+            if (!ok)
+            {
+                throw std::runtime_error("Invalid number format");
+            }
+            values.push(value);
         }
         else
         {
@@ -219,7 +257,17 @@ double checkExpression(const QString& expression)
 
 void MainWindow::on_b_equal_clicked()
 {
-    double result = checkExpression(digitText);
-    digitText = QString::number(result);
-    ui->le_display->setText(digitText);
+    try
+    {
+        if (digitText.length() != 0)
+        {
+            double result = checkExpression(digitText);
+            digitText = QString::number(result);
+        }
+        ui->le_display->setText(digitText);
+    }
+    catch (const std::exception &e) {
+        qDebug() << "Error:" << e.what();
+        ui->le_display->setText("Error");
+    }
 }
