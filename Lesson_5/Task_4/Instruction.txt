@@ -1,0 +1,1 @@
+Place your text file to be filtered and the swear words file into the build folder (Example file path: \build\Desktop_Qt_6_7_1_MinGW_64_bit-Debug\YOURFILES)
