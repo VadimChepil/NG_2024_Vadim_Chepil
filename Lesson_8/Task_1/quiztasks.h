@@ -25,12 +25,12 @@ private slots:
     void onReplyFinished(QNetworkReply *reply);
 
 private:
-    void sendPrompt(const QString &prompt);
+    void sendAi(const QString &prompt);
 
     Ui::QuizTasks *ui;
-    QNetworkAccessManager *m_manager;
-    QString m_llmAnswer;
-    bool m_taskReceived = false;
+    QNetworkAccessManager *manager;
+    QString aiAnswer;
+    bool receivedTask = false;
 };
 
 #endif // QUIZTASKS_H
